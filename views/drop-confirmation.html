@@ -1,0 +1,47 @@
+<!-- Nested node template -->
+<script type="text/ng-template" id="nodes_renderer.html">
+    <div ui-tree-handle class="tree-node tree-node-content"  >
+
+
+
+        <a ng_if ="node.value > 0" class="btn btn-success btn-xs" ng-if="node.nodes && node.nodes.length > 0" data-nodrag ng-click="toggle(this)"><span
+                class="glyphicon"
+                ng-class="{
+          'glyphicon-chevron-right': collapsed,
+          'glyphicon-chevron-down': !collapsed
+        }"> </span></a>
+        <div  ng-if="node.value <0 && !editDisabled && node.value_type =='number50'" >
+            max 50:
+            <input type="number" min="0" max="50" value="{{node.value_core}}" ng-model="node.value_core" />
+        </div>
+        <div  ng-if="node.value <0 && editDisabled  && node.value_type =='number50'" >
+            value  : {{node.value_core}}
+        </div>
+        <div  ng-if="node.value <0 && !editDisabled && node.value_type =='number5'" >
+            max 5:
+            <input type="number" min="0" max="5" value="{{node.value_core}}" ng-model="node.value_core" />
+        </div>
+        <div  ng-if="node.value <0 && editDisabled  && node.value_type =='number5'" >
+            value  : {{node.value_core}}
+        </div>
+        <a ng-if="node.value >  0 "> NODE(id ={{node.value}} ):</a>
+        <a ng-if="node.parent >  0 ">  Child  (Parent id ={{node.parent}}) </a>
+        <a ng-if="node.parent ==  -1 ">   Root  </a>
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
+        <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'">
+        </li>
+    </ol>
+</script>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div data-ui-tree="treeOptions" id="tree-root">
+             <input type="checkbox" id="editDisabled" data-ng-model="editDisabled" data-ng-checked="editDisabled"><label for="editDisabled">Edit Disabled</label>
+
+             <ol data-ui-tree-nodes ng-model="data">
+                <li data-ng-repeat="node in data" data-ui-tree-node ng-include="'nodes_renderer.html'"></li>
+            </ol>
+        </div>
+    </div>
+</div>
